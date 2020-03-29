@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('repients', {
+    return queryInterface.createTable('recipients', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -8,6 +8,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       street: {
         type: Sequelize.STRING,
@@ -30,8 +31,14 @@ module.exports = {
         allowNull: false,
       },
       zip_code: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
       },
     });
   },

@@ -6,9 +6,9 @@ export default async (req, res, next) => {
     password: Yup.string().required(),
   });
 
-  const isValidSchema = await schema.isValid(req.body);
+  const validSchema = await schema.isValid(req.body);
 
-  if (!isValidSchema) {
+  if (!validSchema) {
     return res.status(400).json({ error: 'Validation fails.' });
   }
 

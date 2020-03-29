@@ -1,6 +1,10 @@
+import Recipient from '../models/Recipient';
+
 class RecipientsController {
   async store(req, res) {
-    return res.json({ ok: true });
+    const recipient = await Recipient.create(req.body);
+
+    return res.json(recipient);
   }
 }
 

@@ -17,7 +17,7 @@ class SessionController {
     const isCorrectPassword = await user.isCorrectPassword(password);
 
     if (!isCorrectPassword) {
-      return res.status(401).json({ error: 'Passwords did not match.' });
+      return res.status(401).json({ error: 'Passwords does not match.' });
     }
 
     const { id, name } = user;
