@@ -8,10 +8,12 @@
     "dev:debug": "nodemon --inspect src/server.js"
   },
   "dependencies": {
+    "@types/mongoose": "^5.7.8",
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.11.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
     "multer": "^1.4.2",
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",
