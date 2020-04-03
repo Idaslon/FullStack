@@ -29,7 +29,7 @@ export const Profile = styled.div`
 export const UserLogo = styled.img<UserLogoProps>`
   src: url(${(props) => props.src});
 
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
 `;
