@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 
+interface IDeleteHandler {
+  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  tech: string;
+}
+
+
 class TechList extends Component {
   state = {
     newTech: '',
@@ -23,11 +29,24 @@ class TechList extends Component {
      })
   }
 
+  handleDelete = ({ tech } : IDeleteHandler) => {
+    this.setState({ techs: this.state.techs.filter(t => t !== tech) })
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
       <ul>
-        {this.state.techs.map(tech => <li key={tech}>{tech}</li>)}
+        {this.state.techs.map(tech => (
+          <li key={tech}>
+            {tech}
+            <button
+              onClick={(e) => this.handleDelete({e, tech})}
+              type="button">
+              Remover
+            </button>
+          </li>
+        ))}
       </ul>
       <input
         type="text"
