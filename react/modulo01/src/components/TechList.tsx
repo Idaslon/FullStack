@@ -6,15 +6,34 @@ interface IDeleteHandler {
   tech: string;
 }
 
+interface ITechListProps {
 
-class TechList extends Component {
+}
+
+interface ITechListState {
+  newTech: string;
+  techs: string[];
+}
+
+
+class TechList extends Component<ITechListProps, ITechListState>{
   state = {
     newTech: '',
-    techs: [
-      'Node',
-      'React',
-      'React Native',
-    ]
+    techs: []
+  }
+
+  componentDidMount() {
+    const techs = localStorage.getItem('techs');
+
+    if (techs) {
+      this.setState({ techs: JSON.parse(techs) })
+    }
+  }
+
+  componentDidUpdate(_: ITechListProps, prev_state: ITechListState) {
+    if (prev_state.techs !== this.state.techs) {
+      localStorage.setItem('techs', JSON.stringify(this.state.techs))
+    }
   }
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
