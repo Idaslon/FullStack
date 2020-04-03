@@ -2,11 +2,11 @@ import React from 'react'
 
 import './App.css'
 
-import logo from './assets/logo.png'
+import TechList from './components/TechList'
 
 function App() {
   return (
-    <img width="400" src={logo} alt="Logo"/>
+    <TechList />
   )
 }
 
