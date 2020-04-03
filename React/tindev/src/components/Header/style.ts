@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface UserLogoProps {
+  src: string
+}
+
 export const Container = styled.div`
   height: 80px;
   background: #7159c1;
@@ -22,7 +26,7 @@ export const Profile = styled.div`
   }
 `;
 
-export const UserLogo = styled.img`
+export const UserLogo = styled.img<UserLogoProps>`
   src: url(${(props) => props.src});
 
   width: 50px;
