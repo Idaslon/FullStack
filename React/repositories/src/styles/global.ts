@@ -9,9 +9,13 @@ export default createGlobalStyle`
 
   body {
     background: #f5f5f5;
-    font-size: 16px;
     color: #333;
+    font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
+  }
+
+  button {
+    cursor: pointer;
   }
 
 `;
