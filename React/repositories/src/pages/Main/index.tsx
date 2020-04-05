@@ -21,7 +21,7 @@ interface State {
 
 const initialState: State = {
   newRepo: '',
-  repositories: [{ name: 'AS' }, { name: 'Github/AI' }],
+  repositories: [],
   loading: false,
 };
 
@@ -30,6 +30,22 @@ export default class Main extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = initialState;
+  }
+
+  componentDidMount() {
+    const savedRepositories = localStorage.getItem('repositories');
+
+    if (savedRepositories) {
+      this.setState({ repositories: JSON.parse(savedRepositories) });
+    }
+  }
+
+  componentDidUpdate(_: Props, prevState: State) {
+    const { repositories } = this.state;
+
+    if (prevState.repositories !== repositories) {
+      localStorage.setItem('repositories', JSON.stringify(repositories));
+    }
   }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
