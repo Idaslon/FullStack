@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 
-import {
-  Container, Form, SubmitButton, List,
-} from './styles';
-import api from '../../services/api';
+
+import api from '@services/api';
+import Container from '@components/Container';
+
+import { Form, SubmitButton, List } from './styles';
 
 interface Props {
 }

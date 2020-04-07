@@ -8,7 +8,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #f5f5f5;
+    background: #7f2ed0;
     color: #333;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
