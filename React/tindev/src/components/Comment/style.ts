@@ -11,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.div`
-  background: #e6e6ea;
+  background: #eee;
   border-radius: 10px;
   padding: 8px;
 
