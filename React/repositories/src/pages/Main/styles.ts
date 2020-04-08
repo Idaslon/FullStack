@@ -4,17 +4,25 @@ interface SubmitButtonProps {
   loading: boolean
 }
 
+interface InputWarningProps {
+  activated: boolean
+}
+
+// border: 2.4px solid palevioletred;
+export const InputWarning = styled.input<InputWarningProps>`
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+
+  border-style: solid;
+  border-width: ${(props) => (props.activated ? 2.4 : 1)};
+  border-color: ${(props) => (props.activated ? 'palevioletred' : '#eee')}
+`;
+
 export const Form = styled.form`
   margin-top: 30px;
   display: flex;
-
-  input {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    font-size: 16px;
-  }
 `;
 
 const rotate = keyframes`

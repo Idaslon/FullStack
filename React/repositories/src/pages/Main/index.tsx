@@ -6,7 +6,9 @@ import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 import api from '@services/api';
 import Container from '@components/Container';
 
-import { Form, SubmitButton, List } from './styles';
+import {
+  Form, SubmitButton, List, InputWarning,
+} from './styles';
 
 interface Props {
 }
@@ -19,12 +21,14 @@ interface State {
   newRepo: string
   repositories: ResponseData[]
   loading: boolean
+  inputError: boolean
 }
 
 const initialState: State = {
   newRepo: '',
   repositories: [],
   loading: false,
+  inputError: false,
 };
 
 
@@ -54,28 +58,62 @@ export default class Main extends Component<Props, State> {
     this.setState({ newRepo: e.target.value });
   }
 
+  async getRepository() {
+    try {
+      const { newRepo } = this.state;
+      return await api.get(`repos/${newRepo}`);
+    } catch (err) {
+      return undefined;
+    }
+  }
+
   onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    this.setState({ loading: true });
-
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`repos/${newRepo}`);
+    const repositoryExits = repositories.filter((repository) => repository.name === newRepo);
 
-    const data: ResponseData = {
-      name: response.data.full_name,
-    };
+    if (repositoryExits) {
+      this.setState({
+        newRepo: '',
+        loading: false,
+        inputError: true,
+      });
+      return;
+    }
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+
+    this.setState({ loading: true });
+
+    const response = await this.getRepository();
+
+    if (response) {
+      const { repositories } = this.state;
+
+      const data: ResponseData = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+        inputError: false,
+      });
+    } else {
+      this.setState({
+        newRepo: '',
+        loading: false,
+        inputError: true,
+      });
+    }
   }
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const {
+      newRepo, repositories, loading, inputError,
+    } = this.state;
 
     return (
       <Container>
@@ -85,11 +123,13 @@ export default class Main extends Component<Props, State> {
         </h1>
 
         <Form onSubmit={this.onSubmit}>
-          <input
+
+          <InputWarning
             type="text"
             placeholder="Adicionar repositório"
             value={newRepo}
             onChange={this.onInputChange}
+            activated={inputError}
           />
 
           <SubmitButton loading={loading}>
