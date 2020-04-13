@@ -29,6 +29,12 @@ module.exports = {
         extensions: ['.tsx'],
       },
     ],
+    'import/no-unresolved': [
+      'error',
+      {
+        'ignore': [ '\.svg' ]
+      }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",

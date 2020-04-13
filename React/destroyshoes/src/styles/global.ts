@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
+import background from '@images/background.svg';
+
 export default createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
   * {
     margin: 0;
     padding: 0;
@@ -8,10 +12,23 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #eee;
-    font-size: 16px;
+    background: #191920 url(${background}) no-repeat center;
     color: #333;
-    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body, input, button {
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+  }
+
+  #root {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+  }
+
+  button {
+    cursor: pointer;
   }
 
 `;
