@@ -25,6 +25,7 @@ export const Input = styled.TextInput.attrs({
 
   background-color: red;
   background: #eee;
+  opacity: ${(props) => (props.loading ? 0.7 : 1)};
 `;
 
 export const SubmitButton = styled(RectButton)`
