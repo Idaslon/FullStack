@@ -9,6 +9,8 @@ module.exports = function override(config) {
       '@images': path.resolve(baseUrl, 'assets', 'images'),
       '@pages': path.resolve(baseUrl, 'pages'),
       '@components': path.resolve(baseUrl, 'components'),
+      '@services': path.resolve(baseUrl, 'services'),
+      '@utils': path.resolve(baseUrl, 'utils'),
     },
   };
 

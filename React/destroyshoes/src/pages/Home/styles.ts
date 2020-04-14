@@ -11,29 +11,33 @@ export const ProductsList = styled.ul`
 export const ProductItem = styled.li`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
 
   margin: 7px;
   padding: 0px 15px 15px;
 
   border-radius: 5px;
   background: #fff;
+`;
 
+export const ProductInfo = styled.div`
+  max-width: 270px;
+
+  display: flex;
+  flex-direction: column;
 
   p {
-    max-width: 270px;
-    margin-bottom: 6px;
-
     font-size: 14px;
     font-weight: bold;
     color: rgba(0, 0, 0, 1);
   }
 
   strong {
-    font-size: 16px;
+    margin: 10px 0;
+    font-size: 18px;
   }
 
 `;
+
 
 export const AddButton = styled.button.attrs({
   type: 'button',

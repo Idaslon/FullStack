@@ -5,6 +5,8 @@
       "@images/*": ["assets/images/*"],
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
     }
   }
 }
