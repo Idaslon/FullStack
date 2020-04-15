@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 
 import api from '@services/api';
 import { formatPrice } from '@utils/format';
 
+import { Product, ProductApiResponse } from '@store/ducks/products/types';
+
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@store/ducks/products/actions';
 import {
   ProductsList, ProductItem, ProductInfo, AddButton,
 } from './styles';
 
 
-interface ProductApiResponse {
-  id: number
-  title: string
-  price: number
-  image: string
-}
-
-interface Product extends ProductApiResponse{
-  priceFormatted: string
-}
-
-
 export default function Home() {
+  const dispatch = useDispatch();
+
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -40,11 +34,15 @@ export default function Home() {
     loadProducts();
   }, []);
 
+  const handleAddToCart = useCallback((product: Product) => {
+    dispatch(addToCart(product));
+  }, [dispatch]);
+
   return (
     <ProductsList>
 
       {products.map((product) => (
-        <ProductItem>
+        <ProductItem key={product.id}>
           <ProductInfo>
             <img
               src={product.image}
@@ -53,7 +51,7 @@ export default function Home() {
             <p>{product.title}</p>
             <strong>{product.priceFormatted}</strong>
           </ProductInfo>
-          <AddButton>
+          <AddButton onClick={() => handleAddToCart(product)}>
             <div>
               <MdAddShoppingCart size={14} color="#FFF" />
               <span>3</span>
