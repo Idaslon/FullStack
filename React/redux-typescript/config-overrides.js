@@ -7,6 +7,8 @@ module.exports = function override(config) {
     ...config.resolve,
     alias: {
       '@compoments': path.resolve(baseUrl, 'compoments'),
+      '@store': path.resolve(baseUrl, 'store'),
+      '@services': path.resolve(baseUrl, 'services'),
     },
   };
 
