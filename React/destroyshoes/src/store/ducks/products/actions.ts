@@ -1,20 +1,11 @@
-import { ProductsTypes, Product } from './types';
+import { ProductsTypes, ProductApiResponse, ProductRefAmount } from './types';
 
-export const addToCart = (data: Product) => ({
+export const addToCart = (product: ProductApiResponse) => ({
   type: ProductsTypes.ADD_TO_CART,
-  payload: {
-    data,
-  },
+  payload: product,
 });
 
-// export const loadRequest = () => ({
-//   type: ProductsTypes.LOAD_REQUEST,
-// });
-
-// export const loadSuccess = () => ({
-//   type: ProductsTypes.LOAD_SUCCESS,
-// });
-
-// export const loadFailure = () => ({
-//   type: ProductsTypes.LOAD_FAILURE,
-// });
+export const updateProductAmount = (productRefAmount: ProductRefAmount) => ({
+  type: ProductsTypes.UPDATE_AMOUNT,
+  payload: productRefAmount,
+});

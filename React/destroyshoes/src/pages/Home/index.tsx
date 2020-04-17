@@ -4,7 +4,7 @@ import { MdAddShoppingCart } from 'react-icons/md';
 import api from '@services/api';
 import { formatPrice } from '@utils/format';
 
-import { Product, ProductApiResponse } from '@store/ducks/products/types';
+import { ProductApiResponse } from '@store/ducks/products/types';
 
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@store/ducks/products/actions';
@@ -16,7 +16,7 @@ import {
 export default function Home() {
   const dispatch = useDispatch();
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductApiResponse[]>([]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -34,7 +34,7 @@ export default function Home() {
     loadProducts();
   }, []);
 
-  const handleAddToCart = useCallback((product: Product) => {
+  const handleAddToCart = useCallback((product: ProductApiResponse) => {
     dispatch(addToCart(product));
   }, [dispatch]);
 

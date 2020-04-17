@@ -1,19 +1,20 @@
-export enum ProductsTypes {
-  ADD_TO_CART = '@products/ADD_TO_CART',
-  LOAD_REQUEST = '@products/LOAD_REQUEST',
-  LOAD_SUCCESS = '@products/LOAD_SUCCESS',
-  LOAD_FAILURE = '@products/LOAD_FAILURE',
-}
-
 export interface ProductApiResponse {
   id: number
-  title: string
   price: number
+  title: string
   image: string
+  priceFormatted: string
 }
 
 export interface Product extends ProductApiResponse{
-  priceFormatted: string
+  amount: number
+  subtotal: number
+  subtotalFormatted: string
+}
+
+export interface ProductRefAmount {
+  id: number
+  amount: number
 }
 
 export interface ProductsState {
@@ -21,3 +22,20 @@ export interface ProductsState {
   readonly loading: boolean
   readonly error: boolean
 }
+
+export enum ProductsTypes {
+  ADD_TO_CART = '@products/ADD_TO_CART',
+  UPDATE_AMOUNT = '@products/UPDATE_AMOUNT',
+}
+
+interface AddToCartAction {
+  type: typeof ProductsTypes.ADD_TO_CART,
+  payload: ProductApiResponse
+}
+
+interface UpdateAmountAction {
+  type: typeof ProductsTypes.UPDATE_AMOUNT,
+  payload: ProductRefAmount
+}
+
+export type ProductsActionsTypes = AddToCartAction | UpdateAmountAction;

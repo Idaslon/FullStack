@@ -1,42 +1,80 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { MdAddCircleOutline, MdRemoveCircleOutline, MdDelete } from 'react-icons/md';
 
 
+import { useSafeSelector } from '@store/hooks';
+import { useDispatch } from 'react-redux';
+import { updateProductAmount } from '@store/ducks/products/actions';
 import {
   Container, Product, Info, ProductDescription, ProductAmount, ProductPrice, Purchase,
 } from './styles';
 
 export default function Cart() {
+  const products = useSafeSelector((state) => state.products.data);
+  const dispatch = useDispatch();
+
+  const incrementAmount = useCallback((id: number) => {
+    dispatch(updateProductAmount({ id, amount: 1 }));
+  }, [dispatch]);
+
+  const decrementAmount = useCallback((id: number) => {
+    dispatch(updateProductAmount({ id, amount: -1 }));
+  }, [dispatch]);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    const productIndex = products.findIndex((p) => p.id === id);
+    const product = products[productIndex];
+
+    const amount = Number(e.target.value);
+    const amountToUpdate = amount - product.amount;
+
+    dispatch(updateProductAmount({ id, amount: amountToUpdate }));
+  }, [products, dispatch]);
+
   return (
     <Container>
-      <Product>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-masculino/02/D12-9660-002/D12-9660-002_detalhe1.jpg?ts=1580822700?ims=280x280"
-          alt="Tênis"
-        />
-        <Info>
-          <h4>PRODUTO</h4>
-          <ProductDescription>
-            <strong>Tênis muito massa</strong>
-            <span>129.90</span>
-          </ProductDescription>
-        </Info>
-        <Info>
-          <h4>QUANTIDADE</h4>
-          <ProductAmount>
-            <MdRemoveCircleOutline color="#7f2ed0" size={20} />
-            <input type="text" value={2} />
-            <MdAddCircleOutline color="#7f2ed0" size={20} />
-          </ProductAmount>
-        </Info>
-        <Info>
-          <h4>SUBTOTAL</h4>
-          <ProductPrice>
-            <span>R$222,99</span>
-            <MdDelete color="#7f2ed0" size={20} />
-          </ProductPrice>
-        </Info>
-      </Product>
+      {products.map((product) => (
+        <Product key={product.id}>
+          <img
+            src={product.image}
+            alt={product.title}
+          />
+          <Info>
+            <h4>PRODUTO</h4>
+            <ProductDescription>
+              <strong>{product.title}</strong>
+              <span>{product.priceFormatted}</span>
+            </ProductDescription>
+          </Info>
+          <Info>
+            <h4>QUANTIDADE</h4>
+            <ProductAmount>
+              <MdRemoveCircleOutline
+                color="#7f2ed0"
+                size={20}
+                onClick={() => decrementAmount(product.id)}
+              />
+              <input
+                type="text"
+                value={product.amount}
+                onChange={(e) => handleInputChange(e, product.id)}
+              />
+              <MdAddCircleOutline
+                color="#7f2ed0"
+                size={20}
+                onClick={() => incrementAmount(product.id)}
+              />
+            </ProductAmount>
+          </Info>
+          <Info>
+            <h4>SUBTOTAL</h4>
+            <ProductPrice>
+              <span>{product.subtotalFormatted}</span>
+              <MdDelete color="#7f2ed0" size={20} />
+            </ProductPrice>
+          </Info>
+        </Product>
+      ))}
 
       <Purchase>
         <button type="button">FINALIZAR PEDIDO</button>
