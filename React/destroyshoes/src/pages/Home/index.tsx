@@ -8,12 +8,24 @@ import { ProductApiResponse } from '@store/ducks/products/types';
 
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@store/ducks/products/actions';
+import { useSafeSelector } from '@store/hooks';
 import {
   ProductsList, ProductItem, ProductInfo, AddButton,
 } from './styles';
 
 
+interface CartProduct {
+  [key: number]: number
+}
+
 export default function Home() {
+  const cartProducts: CartProduct = useSafeSelector((state) => state.products.data.reduce(
+    (amount, product) => ({
+      ...amount,
+      [product.id]: product.amount,
+    }), {},
+  ));
+
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState<ProductApiResponse[]>([]);
@@ -54,7 +66,7 @@ export default function Home() {
           <AddButton onClick={() => handleAddToCart(product)}>
             <div>
               <MdAddShoppingCart size={14} color="#FFF" />
-              <span>3</span>
+              <span>{cartProducts[product.id] ?? 0}</span>
             </div>
             <strong>ADICIONAR AO CARRINHO</strong>
           </AddButton>
