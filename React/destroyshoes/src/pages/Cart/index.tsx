@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { MdAddCircleOutline, MdRemoveCircleOutline, MdDelete } from 'react-icons/md';
 
 
 import { useSafeSelector } from '@store/hooks';
 import { useDispatch } from 'react-redux';
 import { updateProductAmount } from '@store/ducks/products/actions';
+import { formatPrice } from '@utils/format';
 import {
   Container, Product, Info, ProductDescription, ProductAmount, ProductPrice, Purchase,
 } from './styles';
@@ -30,6 +31,12 @@ export default function Cart() {
 
     dispatch(updateProductAmount({ id, amount: amountToUpdate }));
   }, [products, dispatch]);
+
+  const totalPrice = useMemo(() => {
+    const total = products.reduce((total, product) => total + product.subtotal, 0);
+
+    return formatPrice(total);
+  }, [products]);
 
   return (
     <Container>
@@ -80,7 +87,7 @@ export default function Cart() {
         <button type="button">FINALIZAR PEDIDO</button>
         <strong>
           <span>TOTAL</span>
-          R$2456,00
+          {totalPrice}
         </strong>
       </Purchase>
     </Container>
