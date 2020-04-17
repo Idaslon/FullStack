@@ -26,6 +26,7 @@ export interface ProductsState {
 export enum ProductsTypes {
   ADD_TO_CART = '@products/ADD_TO_CART',
   UPDATE_AMOUNT = '@products/UPDATE_AMOUNT',
+  REMOVE_FROM_CART = '@products/REMOVE_FROM_CART',
 }
 
 interface AddToCartAction {
@@ -38,4 +39,11 @@ interface UpdateAmountAction {
   payload: ProductRefAmount
 }
 
-export type ProductsActionsTypes = AddToCartAction | UpdateAmountAction;
+interface RemoveFromCartAction {
+  type: typeof ProductsTypes.REMOVE_FROM_CART,
+  payload: {
+    id: number
+  }
+}
+
+export type ProductsActionsTypes = AddToCartAction | UpdateAmountAction | RemoveFromCartAction;

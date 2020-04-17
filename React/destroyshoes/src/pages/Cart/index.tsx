@@ -4,7 +4,7 @@ import { MdAddCircleOutline, MdRemoveCircleOutline, MdDelete } from 'react-icons
 
 import { useSafeSelector } from '@store/hooks';
 import { useDispatch } from 'react-redux';
-import { updateProductAmount } from '@store/ducks/products/actions';
+import { updateProductAmount, removeFromCart } from '@store/ducks/products/actions';
 import { formatPrice } from '@utils/format';
 import {
   Container, Product, Info, ProductDescription, ProductAmount, ProductPrice, Purchase,
@@ -37,6 +37,10 @@ export default function Cart() {
 
     return formatPrice(total);
   }, [products]);
+
+  const removeProduct = useCallback((id: number) => {
+    dispatch(removeFromCart(id));
+  }, [dispatch]);
 
   return (
     <Container>
@@ -77,7 +81,11 @@ export default function Cart() {
             <h4>SUBTOTAL</h4>
             <ProductPrice>
               <span>{product.subtotalFormatted}</span>
-              <MdDelete color="#7f2ed0" size={20} />
+              <MdDelete
+                color="#7f2ed0"
+                size={20}
+                onClick={() => removeProduct(product.id)}
+              />
             </ProductPrice>
           </Info>
         </Product>
