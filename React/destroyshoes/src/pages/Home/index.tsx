@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 
 import api from '@services/api';
 import { formatPrice } from '@utils/format';
 
+import { useDispatch } from 'react-redux';
+import { useSafeSelector } from '@store/hooks';
+import { addToCartRequest } from '@store/ducks/products/actions';
+import { ProductApiResponse } from '@services/api/types';
 import {
   ProductsList, ProductItem, ProductInfo, AddButton,
 } from './styles';
 
 
-interface ProductApiResponse {
-  id: number
-  title: string
-  price: number
-  image: string
+interface CartProduct {
+  [key: number]: number
 }
-
-interface Product extends ProductApiResponse{
-  priceFormatted: string
-}
-
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const cartProducts: CartProduct = useSafeSelector((state) => state.products.data.reduce(
+    (amount, product) => ({
+      ...amount,
+      [product.id]: product.amount,
+    }), {},
+  ));
+
+  const dispatch = useDispatch();
+
+  const [products, setProducts] = useState<ProductApiResponse[]>([]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -40,11 +45,15 @@ export default function Home() {
     loadProducts();
   }, []);
 
+  const handleAddToCart = useCallback((product: ProductApiResponse) => {
+    dispatch(addToCartRequest(product));
+  }, [dispatch]);
+
   return (
     <ProductsList>
 
       {products.map((product) => (
-        <ProductItem>
+        <ProductItem key={product.id}>
           <ProductInfo>
             <img
               src={product.image}
@@ -53,10 +62,10 @@ export default function Home() {
             <p>{product.title}</p>
             <strong>{product.priceFormatted}</strong>
           </ProductInfo>
-          <AddButton>
+          <AddButton onClick={() => handleAddToCart(product)}>
             <div>
               <MdAddShoppingCart size={14} color="#FFF" />
-              <span>3</span>
+              <span>{cartProducts[product.id] ?? 0}</span>
             </div>
             <strong>ADICIONAR AO CARRINHO</strong>
           </AddButton>

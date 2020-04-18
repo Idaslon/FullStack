@@ -11,6 +11,7 @@ module.exports = function override(config) {
       '@components': path.resolve(baseUrl, 'components'),
       '@services': path.resolve(baseUrl, 'services'),
       '@utils': path.resolve(baseUrl, 'utils'),
+      '@store': path.resolve(baseUrl, 'store'),
     },
   };
 

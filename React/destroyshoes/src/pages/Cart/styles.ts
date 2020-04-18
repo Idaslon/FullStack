@@ -20,6 +20,10 @@ export const Product = styled.li`
   img {
     max-width: 120px;
   }
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const Info = styled.div`
