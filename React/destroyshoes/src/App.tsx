@@ -1,8 +1,10 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { Provider } from 'react-redux';
 
 import Header from '@components/Header';
-import { Provider } from 'react-redux';
+import history from '@services/history';
 import Routes from './routes';
 import GlobalStyle from './styles/global';
 import store from './store';
@@ -12,10 +14,11 @@ function App() {
     <Provider store={store}>
 
       <GlobalStyle />
-      <BrowserRouter>
+      <ToastContainer autoClose={3000} />
+      <Router history={history}>
         <Header />
         <Routes />
-      </BrowserRouter>
+      </Router>
 
     </Provider>
   );

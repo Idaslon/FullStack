@@ -12,28 +12,14 @@ const INITIAL_STATE: ProductsState = {
 };
 
 const reducer: Reducer<ProductsState, ProductsActionsTypes> = (state = INITIAL_STATE, action) => {
+  console.log(action.type);
+
   switch (action.type) {
-    case ProductsTypes.ADD_TO_CART:
+    case ProductsTypes.ADD_TO_CART_SUCESS:
       return produce(state, (draft) => {
-        const productIndex = draft.data.findIndex((p) => p.id === action.payload.id);
-
-        if (productIndex === -1) {
-          const product: Product = {
-            ...action.payload,
-            amount: 1,
-            subtotal: action.payload.price,
-            subtotalFormatted: formatPrice(action.payload.price),
-          };
-          draft.data.push(product);
-        } else {
-          const product = draft.data[productIndex];
-
-          product.amount += 1;
-          product.subtotal = product.price * product.amount;
-          product.subtotalFormatted = formatPrice(product.subtotal);
-        }
+        draft.data.push(action.payload);
       });
-    case ProductsTypes.UPDATE_AMOUNT:
+    case ProductsTypes.UPDATE_AMOUNT_SUCCESS:
       return produce(state, (draft) => {
         const { payload } = action;
 
@@ -43,9 +29,7 @@ const reducer: Reducer<ProductsState, ProductsActionsTypes> = (state = INITIAL_S
         const amountUpdated = product.amount + payload.amount;
 
         if (product && amountUpdated > 0) {
-          product.amount = amountUpdated;
-          product.subtotal = product.price * product.amount;
-          product.subtotalFormatted = formatPrice(product.subtotal);
+          updateProductAmountAndSubtotal(product, amountUpdated);
         }
       });
     case ProductsTypes.REMOVE_FROM_CART:
@@ -59,6 +43,14 @@ const reducer: Reducer<ProductsState, ProductsActionsTypes> = (state = INITIAL_S
     default:
       return state;
   }
+};
+
+const updateProductAmountAndSubtotal = (product: Product, amount: number) => {
+  product.amount = amount;
+  product.subtotal = product.price * product.amount;
+  product.subtotalFormatted = formatPrice(product.subtotal);
+
+  return product;
 };
 
 export default reducer;

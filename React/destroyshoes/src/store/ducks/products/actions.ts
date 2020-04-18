@@ -1,7 +1,13 @@
-import { ProductsTypes, ProductApiResponse, ProductRefAmount } from './types';
+import { ProductApiResponse, StockAmount } from '@services/api/types';
+import { ProductsTypes, Product } from './types';
 
-export const addToCart = (product: ProductApiResponse) => ({
-  type: ProductsTypes.ADD_TO_CART,
+export const addToCartRequest = (product: ProductApiResponse) => ({
+  type: ProductsTypes.ADD_TO_CART_REQUEST,
+  payload: product,
+});
+
+export const addToCartSuccess = (product: Product) => ({
+  type: ProductsTypes.ADD_TO_CART_SUCESS,
   payload: product,
 });
 
@@ -12,7 +18,12 @@ export const removeFromCart = (id: number) => ({
   },
 });
 
-export const updateProductAmount = (productRefAmount: ProductRefAmount) => ({
-  type: ProductsTypes.UPDATE_AMOUNT,
-  payload: productRefAmount,
+export const updateProductAmountRequest = (stockAmount: StockAmount) => ({
+  type: ProductsTypes.UPDATE_AMOUNT_REQUEST,
+  payload: stockAmount,
+});
+
+export const updateProductAmountSuccess = (stockAmount: StockAmount) => ({
+  type: ProductsTypes.UPDATE_AMOUNT_SUCCESS,
+  payload: stockAmount,
 });

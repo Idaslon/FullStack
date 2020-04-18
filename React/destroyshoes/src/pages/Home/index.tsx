@@ -4,11 +4,10 @@ import { MdAddShoppingCart } from 'react-icons/md';
 import api from '@services/api';
 import { formatPrice } from '@utils/format';
 
-import { ProductApiResponse } from '@store/ducks/products/types';
-
 import { useDispatch } from 'react-redux';
-import { addToCart } from '@store/ducks/products/actions';
 import { useSafeSelector } from '@store/hooks';
+import { addToCartRequest } from '@store/ducks/products/actions';
+import { ProductApiResponse } from '@services/api/types';
 import {
   ProductsList, ProductItem, ProductInfo, AddButton,
 } from './styles';
@@ -47,7 +46,7 @@ export default function Home() {
   }, []);
 
   const handleAddToCart = useCallback((product: ProductApiResponse) => {
-    dispatch(addToCart(product));
+    dispatch(addToCartRequest(product));
   }, [dispatch]);
 
   return (

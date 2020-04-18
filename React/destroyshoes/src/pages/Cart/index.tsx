@@ -4,7 +4,7 @@ import { MdAddCircleOutline, MdRemoveCircleOutline, MdDelete } from 'react-icons
 
 import { useSafeSelector } from '@store/hooks';
 import { useDispatch } from 'react-redux';
-import { updateProductAmount, removeFromCart } from '@store/ducks/products/actions';
+import { updateProductAmountRequest, removeFromCart } from '@store/ducks/products/actions';
 import { formatPrice } from '@utils/format';
 import {
   Container, Product, Info, ProductDescription, ProductAmount, ProductPrice, Purchase,
@@ -15,11 +15,11 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   const incrementAmount = useCallback((id: number) => {
-    dispatch(updateProductAmount({ id, amount: 1 }));
+    dispatch(updateProductAmountRequest({ id, amount: 1 }));
   }, [dispatch]);
 
   const decrementAmount = useCallback((id: number) => {
-    dispatch(updateProductAmount({ id, amount: -1 }));
+    dispatch(updateProductAmountRequest({ id, amount: -1 }));
   }, [dispatch]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, id: number) => {
@@ -29,7 +29,7 @@ export default function Cart() {
     const amount = Number(e.target.value);
     const amountToUpdate = amount - product.amount;
 
-    dispatch(updateProductAmount({ id, amount: amountToUpdate }));
+    dispatch(updateProductAmountRequest({ id, amount: amountToUpdate }));
   }, [products, dispatch]);
 
   const totalPrice = useMemo(() => {
