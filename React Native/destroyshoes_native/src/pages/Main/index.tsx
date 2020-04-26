@@ -24,9 +24,21 @@ import {
   AddToCartText,
 } from './styles';
 import { addToCartRequest } from '~/store/ducks/products/actions';
+import { useSafeSelector } from '~/store/hooks';
+
+interface Amounts {
+  [key: number]: number;
+}
 
 const Main: React.FC = () => {
   const dispatch = useDispatch();
+
+  const productsAmounts = useSafeSelector((state) =>
+    state.products.data.reduce(
+      (amounts, product) => ({ ...amounts, [product.id]: product.amount }),
+      {} as Amounts
+    )
+  );
 
   const [products, setProducts] = useState<ProductApi[]>([]);
 
@@ -62,7 +74,9 @@ const Main: React.FC = () => {
       <AddToCartButton onPress={() => handleAddToCart(product)}>
         <ProductCartAmount>
           <Icon name="add-shopping-cart" color="#FFF" size={20} />
-          <ProductCartAmountText>1</ProductCartAmountText>
+          <ProductCartAmountText>
+            {productsAmounts[product.id] ?? 0}
+          </ProductCartAmountText>
         </ProductCartAmount>
         <AddToCartText>ADICIONAR</AddToCartText>
       </AddToCartButton>

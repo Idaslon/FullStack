@@ -5,7 +5,6 @@ import { produce } from 'immer';
 import {
   ProductState,
   ProductActionsTypes,
-  ADD_TO_CART_REQUEST,
   ADD_TO_CART_SUCCESS,
   UPDATE_AMOUNT_SUCCESS,
 } from './types';
