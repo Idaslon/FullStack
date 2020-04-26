@@ -1,4 +1,4 @@
-import { ProductApi } from '~/services/api/types';
+import { ProductApi, StockApi } from '~/services/api/types';
 
 export interface Product extends ProductApi {
   amount: number;
@@ -13,16 +13,31 @@ export interface ProductState {
 export const ADD_TO_CART_REQUEST = '@products/ADD_TO_CART_REQUEST';
 export const ADD_TO_CART_SUCCESS = '@products/ADD_TO_CART_SUCCESS';
 
+export const UPDATE_AMOUNT_REQUEST = '@products/UPDATE_AMOUNT_REQUEST';
+export const UPDATE_AMOUNT_SUCCESS = '@products/UPDATE_AMOUNT_SUCCESS';
+
 interface AddToCartRequestAction {
   payload: ProductApi;
   type: typeof ADD_TO_CART_REQUEST;
 }
 
 interface AddToCartSuccessAction {
-  payload: ProductApi;
+  payload: Product;
   type: typeof ADD_TO_CART_SUCCESS;
+}
+
+interface UpdateAmountRequestAction {
+  payload: StockApi;
+  type: typeof UPDATE_AMOUNT_REQUEST;
+}
+
+interface UpdateAmountSuccessAction {
+  payload: StockApi;
+  type: typeof UPDATE_AMOUNT_SUCCESS;
 }
 
 export type ProductActionsTypes =
   | AddToCartRequestAction
-  | AddToCartSuccessAction;
+  | AddToCartSuccessAction
+  | UpdateAmountRequestAction
+  | UpdateAmountSuccessAction;

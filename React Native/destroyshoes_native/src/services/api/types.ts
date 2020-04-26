@@ -5,3 +5,8 @@ export interface ProductApi {
   priceFormatted: string;
   image: string;
 }
+
+export interface StockApi {
+  id: number;
+  amount: number;
+}

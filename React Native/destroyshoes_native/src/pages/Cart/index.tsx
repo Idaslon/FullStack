@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { useDispatch } from 'react-redux';
 import { Product } from '~/store/ducks/products/types';
 import { useSafeSelector } from '~/store/hooks';
 
@@ -27,9 +28,18 @@ import {
   SubmitText,
   ProductList,
 } from './styles';
+import { updateAmountRequest } from '~/store/ducks/products/actions';
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const products = useSafeSelector((state) => state.products.data);
+
+  const updateAmount = useCallback(
+    (id: number, amount: number) => {
+      dispatch(updateAmountRequest({ id, amount }));
+    },
+    [dispatch]
+  );
 
   const totalPrice = useMemo(() => {
     const totalProductsPrice = products.reduce(
@@ -54,9 +64,15 @@ const Cart = () => {
           name="remove-circle-outline"
           size={24}
           color={appColors.primary}
+          onPress={() => updateAmount(product.id, -1)}
         />
         <CartProductInput value={String(product.amount)} />
-        <Icon name="add-circle-outline" size={24} color={appColors.primary} />
+        <Icon
+          name="add-circle-outline"
+          size={24}
+          color={appColors.primary}
+          onPress={() => updateAmount(product.id, 1)}
+        />
         <CartProductSubtotal>{product.subtotalFormatted}</CartProductSubtotal>
       </CartProductControls>
     </>

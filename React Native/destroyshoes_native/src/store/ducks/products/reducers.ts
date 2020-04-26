@@ -7,6 +7,7 @@ import {
   ProductActionsTypes,
   ADD_TO_CART_REQUEST,
   ADD_TO_CART_SUCCESS,
+  UPDATE_AMOUNT_SUCCESS,
 } from './types';
 import { formatPrice } from '~/utils/format';
 
@@ -19,30 +20,24 @@ const reducer: Reducer<ProductState, ProductActionsTypes> = (
   action
 ) => {
   switch (action.type) {
-    case ADD_TO_CART_REQUEST:
+    case ADD_TO_CART_SUCCESS:
+      return { data: [...state.data, action.payload] };
+    case UPDATE_AMOUNT_SUCCESS:
       return produce(state, (draft: ProductState) => {
         const { payload } = action;
 
-        const index = draft.data.findIndex((p) => p.id === payload.id);
-
-        if (index === -1) {
-          const product = {
-            ...payload,
-            amount: 1,
-            subtotal: payload.price,
-            subtotalFormatted: formatPrice(payload.price),
-          };
-          draft.data.push(product);
-        } else {
-          const product = draft.data[index];
-
-          product.amount += 1;
-          product.subtotal += product.price;
-          product.subtotalFormatted = formatPrice(product.subtotal);
+        if (payload.amount < 1) {
+          return;
         }
+
+        const index = draft.data.findIndex((p) => p.id === payload.id);
+        const product = draft.data[index];
+
+        product.amount = payload.amount;
+        product.subtotal += product.price;
+        product.subtotalFormatted = formatPrice(product.subtotal);
       });
-    case ADD_TO_CART_SUCCESS:
-      return state;
+
     default:
       return state;
   }
