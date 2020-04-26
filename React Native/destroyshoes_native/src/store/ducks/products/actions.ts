@@ -6,6 +6,7 @@ import {
   ADD_TO_CART_SUCCESS,
   UPDATE_AMOUNT_REQUEST,
   UPDATE_AMOUNT_SUCCESS,
+  REMOVE_FROM_CART,
 } from './types';
 
 export const addToCartRequest = (product: ProductApi) => ({
@@ -26,4 +27,9 @@ export const updateAmountRequest = (data: StockApi) => ({
 export const updateAmountSuccess = (data: StockApi) => ({
   payload: data,
   type: UPDATE_AMOUNT_SUCCESS,
+});
+
+export const removeFomCart = (data: { id: number }) => ({
+  payload: data,
+  type: REMOVE_FROM_CART,
 });

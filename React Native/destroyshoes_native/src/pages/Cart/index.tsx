@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -28,7 +28,10 @@ import {
   SubmitText,
   ProductList,
 } from './styles';
-import { updateAmountRequest } from '~/store/ducks/products/actions';
+import {
+  updateAmountRequest,
+  removeFomCart,
+} from '~/store/ducks/products/actions';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -37,6 +40,13 @@ const Cart = () => {
   const updateAmount = useCallback(
     (id: number, amount: number) => {
       dispatch(updateAmountRequest({ id, amount }));
+    },
+    [dispatch]
+  );
+
+  const handleRemoveFromCart = useCallback(
+    (id: number) => {
+      dispatch(removeFomCart({ id }));
     },
     [dispatch]
   );
@@ -57,7 +67,12 @@ const Cart = () => {
           <CartProductDescription>{product.title}</CartProductDescription>
           <CartProductPrice>{product.priceFormatted}</CartProductPrice>
         </CartProductInfo>
-        <Icon name="delete-forever" size={28} color={appColors.primary} />
+        <Icon
+          name="delete-forever"
+          size={28}
+          color={appColors.primary}
+          onPress={() => handleRemoveFromCart(product.id)}
+        />
       </CartProduct>
       <CartProductControls>
         <Icon

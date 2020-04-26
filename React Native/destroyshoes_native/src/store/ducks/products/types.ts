@@ -16,6 +16,8 @@ export const ADD_TO_CART_SUCCESS = '@products/ADD_TO_CART_SUCCESS';
 export const UPDATE_AMOUNT_REQUEST = '@products/UPDATE_AMOUNT_REQUEST';
 export const UPDATE_AMOUNT_SUCCESS = '@products/UPDATE_AMOUNT_SUCCESS';
 
+export const REMOVE_FROM_CART = '@products/REMOVE_FROM_CART';
+
 interface AddToCartRequestAction {
   payload: ProductApi;
   type: typeof ADD_TO_CART_REQUEST;
@@ -36,8 +38,16 @@ interface UpdateAmountSuccessAction {
   type: typeof UPDATE_AMOUNT_SUCCESS;
 }
 
+interface RemoveFromCartAction {
+  payload: {
+    id: number;
+  };
+  type: typeof REMOVE_FROM_CART;
+}
+
 export type ProductActionsTypes =
   | AddToCartRequestAction
   | AddToCartSuccessAction
   | UpdateAmountRequestAction
-  | UpdateAmountSuccessAction;
+  | UpdateAmountSuccessAction
+  | RemoveFromCartAction;

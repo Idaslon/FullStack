@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Image } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
