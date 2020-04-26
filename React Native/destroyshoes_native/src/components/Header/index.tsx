@@ -24,7 +24,7 @@ export default function Header() {
           onPress={() => navigate('Cart')}
           style={{ flex: 1 }}
         />
-        <Circle>{cartProductsSize}</Circle>
+        {cartProductsSize ? <Circle>{cartProductsSize}</Circle> : <></>}
       </ShopContainer>
     </Container>
   );

@@ -3,8 +3,13 @@ import React, { useMemo, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { useDispatch } from 'react-redux';
+
 import { Product } from '~/store/ducks/products/types';
 import { useSafeSelector } from '~/store/hooks';
+import {
+  updateAmountRequest,
+  removeFomCart,
+} from '~/store/ducks/products/actions';
 
 import Header from '~/components/Header';
 import appColors from '~/styles/appColors';
@@ -27,11 +32,9 @@ import {
   SubmitButton,
   SubmitText,
   ProductList,
+  EmptyCart,
+  EmptyCartText,
 } from './styles';
-import {
-  updateAmountRequest,
-  removeFomCart,
-} from '~/store/ducks/products/actions';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -96,21 +99,28 @@ const Cart = () => {
   return (
     <Container>
       <Header />
-      <Purchase>
-        <ProductList
-          data={products}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => renderProduct(item)}
-          showsVerticalScrollIndicator={false}
-        />
-        <EndPurchase>
-          <TotalText>TOTAL</TotalText>
-          <TotalPrice>{totalPrice}</TotalPrice>
-          <SubmitButton onPress={() => {}}>
-            <SubmitText>FINALIZAR PEDIDO</SubmitText>
-          </SubmitButton>
-        </EndPurchase>
-      </Purchase>
+      {products.length ? (
+        <Purchase>
+          <ProductList
+            data={products}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => renderProduct(item)}
+            showsVerticalScrollIndicator={false}
+          />
+          <EndPurchase>
+            <TotalText>TOTAL</TotalText>
+            <TotalPrice>{totalPrice}</TotalPrice>
+            <SubmitButton onPress={() => {}}>
+              <SubmitText>FINALIZAR PEDIDO</SubmitText>
+            </SubmitButton>
+          </EndPurchase>
+        </Purchase>
+      ) : (
+        <EmptyCart>
+          <Icon name="remove-shopping-cart" size={64} color="#eee" />
+          <EmptyCartText>Seu carrinho está vazio</EmptyCartText>
+        </EmptyCart>
+      )}
     </Container>
   );
 };

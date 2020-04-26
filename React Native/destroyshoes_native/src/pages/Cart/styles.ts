@@ -129,3 +129,24 @@ export const SubmitText = styled.Text`
 export const ProductList = styled(FlatList as new () => FlatList<Product>)`
   max-height: 350px;
 `;
+
+export const EmptyCart = styled.View`
+  margin-top: 40px;
+
+  align-items: center;
+
+  padding: 10px 15px;
+  border-radius: 5px;
+
+  background: #fff;
+`;
+
+export const EmptyCartText = styled.Text`
+  margin-top: 15px;
+
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+
+  color: #444;
+`;

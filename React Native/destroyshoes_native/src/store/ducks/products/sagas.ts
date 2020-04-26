@@ -1,4 +1,5 @@
 import { all, takeLatest, call, put, select } from 'redux-saga/effects';
+import { Alert } from 'react-native';
 import {
   addToCartRequest,
   addToCartSuccess,
@@ -17,8 +18,7 @@ interface ApiResponse {
 
 function* addToCart({ payload }: ReturnType<typeof addToCartRequest>) {
   const { products }: ApplicationState = yield select();
-  const index = products.data.findIndex((p) => p.id === payload.id);
-  const productState = products.data[index];
+  const productState = products.data.find((p) => p.id === payload.id);
 
   if (productState) {
     yield put(updateAmountRequest({ id: payload.id, amount: 1 }));
@@ -36,8 +36,7 @@ function* addToCart({ payload }: ReturnType<typeof addToCartRequest>) {
 
 function* updateAmount({ payload }: ReturnType<typeof updateAmountRequest>) {
   const { products }: ApplicationState = yield select();
-  const index = products.data.findIndex((p) => p.id === payload.id);
-  const productState = products.data[index];
+  const productState = products.data.find((p) => p.id === payload.id);
 
   const { data }: ApiResponse = yield call(api.get, `stock/${payload.id}`);
 
@@ -47,7 +46,7 @@ function* updateAmount({ payload }: ReturnType<typeof updateAmountRequest>) {
     if (data.amount >= amount) {
       yield put(updateAmountSuccess({ id: payload.id, amount }));
     } else {
-      console.log('Amount out of stock');
+      Alert.alert('Quantidade solicitada fora do estoque.');
     }
   }
 }
