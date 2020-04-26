@@ -2,10 +2,12 @@ import { ProductApi } from '~/services/api/types';
 
 export interface Product extends ProductApi {
   amount: number;
+  subtotal: number;
+  subtotalFormatted: string;
 }
 
 export interface ProductState {
-  data: Product[];
+  readonly data: Product[];
 }
 
 export const ADD_TO_CART_REQUEST = '@products/ADD_TO_CART_REQUEST';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -31,6 +31,14 @@ import {
 const Cart = () => {
   const products = useSafeSelector((state) => state.products.data);
 
+  const totalPrice = useMemo(() => {
+    const totalProductsPrice = products.reduce(
+      (total, product) => total + product.subtotal,
+      0
+    );
+    return formatPrice(totalProductsPrice);
+  }, [products]);
+
   const renderProduct = (product: Product) => (
     <>
       <CartProduct>
@@ -47,9 +55,9 @@ const Cart = () => {
           size={24}
           color={appColors.primary}
         />
-        <CartProductInput value="3" />
+        <CartProductInput value={String(product.amount)} />
         <Icon name="add-circle-outline" size={24} color={appColors.primary} />
-        <CartProductSubtotal>R$436,99</CartProductSubtotal>
+        <CartProductSubtotal>{product.subtotalFormatted}</CartProductSubtotal>
       </CartProductControls>
     </>
   );
@@ -66,7 +74,7 @@ const Cart = () => {
         />
         <EndPurchase>
           <TotalText>TOTAL</TotalText>
-          <TotalPrice>R$1000,97</TotalPrice>
+          <TotalPrice>{totalPrice}</TotalPrice>
           <SubmitButton onPress={() => {}}>
             <SubmitText>FINALIZAR PEDIDO</SubmitText>
           </SubmitButton>
