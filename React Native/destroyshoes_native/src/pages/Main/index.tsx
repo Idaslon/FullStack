@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Image } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { FlatList } from 'react-native-gesture-handler';
 
+import { useDispatch } from 'react-redux';
 import Header from '~/components/Header';
 import api from '~/services/api';
+import { ProductApi } from '~/services/api/types';
+
 import { formatPrice } from '~/utils/format';
 
 import {
@@ -20,21 +23,16 @@ import {
   ProductCartAmountText,
   AddToCartText,
 } from './styles';
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  priceFormatted: string;
-  image: string;
-}
+import { addToCartRequest } from '~/store/ducks/products/actions';
 
 const Main: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const dispatch = useDispatch();
+
+  const [products, setProducts] = useState<ProductApi[]>([]);
 
   useEffect(() => {
     async function loadProducts() {
-      const response = await api.get<Product[]>('/products');
+      const response = await api.get<ProductApi[]>('/products');
 
       const data = response.data.map((product) => ({
         ...product,
@@ -45,7 +43,14 @@ const Main: React.FC = () => {
     loadProducts();
   }, []);
 
-  const renderProduct = (product: Product) => (
+  const handleAddToCart = useCallback(
+    (product: ProductApi) => {
+      dispatch(addToCartRequest(product));
+    },
+    [dispatch]
+  );
+
+  const renderProduct = (product: ProductApi) => (
     <Product>
       <ProductImage
         source={{
@@ -54,7 +59,7 @@ const Main: React.FC = () => {
       />
       <ProductDescription>{product.title}</ProductDescription>
       <ProductPrice>{product.priceFormatted}</ProductPrice>
-      <AddToCartButton>
+      <AddToCartButton onPress={() => handleAddToCart(product)}>
         <ProductCartAmount>
           <Icon name="add-shopping-cart" color="#FFF" size={20} />
           <ProductCartAmountText>1</ProductCartAmountText>

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { Product } from '~/store/ducks/products/types';
+import { useSafeSelector } from '~/store/hooks';
+
 import Header from '~/components/Header';
+import appColors from '~/styles/appColors';
+import { formatPrice } from '~/utils/format';
 
 import {
   Container,
@@ -22,34 +28,8 @@ import {
   ProductList,
 } from './styles';
 
-import appColors from '~/styles/appColors';
-import { Product } from '~/services/api/types';
-import { formatPrice } from '~/utils/format';
-
 const Cart = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const data = [
-      {
-        id: 1,
-        title: 'Tênis de Caminhada Leve e Confortável',
-        price: 179.9,
-        image:
-          'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-        priceFormatted: formatPrice(179.9),
-      },
-      {
-        id: 2,
-        title: 'Tênis de Caminhada Leve e Confortável',
-        price: 179.9,
-        image:
-          'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-        priceFormatted: formatPrice(179.9),
-      },
-    ];
-    setProducts(data);
-  }, []);
+  const products = useSafeSelector((state) => state.products.data);
 
   const renderProduct = (product: Product) => (
     <>
@@ -82,6 +62,7 @@ const Cart = () => {
           data={products}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => renderProduct(item)}
+          showsVerticalScrollIndicator={false}
         />
         <EndPurchase>
           <TotalText>TOTAL</TotalText>

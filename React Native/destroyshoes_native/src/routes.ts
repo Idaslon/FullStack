@@ -7,8 +7,8 @@ import Cart from './pages/Cart';
 const Routes = createAppContainer(
   createStackNavigator(
     {
-      Cart,
       Main,
+      Cart,
     },
     {
       defaultNavigationOptions: {
